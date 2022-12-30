@@ -1,0 +1,190 @@
+
+                <!--Card-->
+                <div class="card mb-3 card-title">
+                    <div class="card-body">
+                        <h1 class="display-3 text-center mb-2 card-title-text">Usuário</h1>
+
+                        <h5 class="card-text"> <span id="qtd"><?= $this->view->totalUsuarios['total'] ?></span> Usuário(s) encontrado(s).</h5>
+
+                        <?php if ($_SESSION['nivel_acesso'] <= 2) { ?>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn button-primary-outline" data-bs-toggle="modal" data-bs-target="#modalFormUsuario">
+                                <i class="far fa-address-book"></i> Cadastrar
+                            </button>
+                        <?php } ?>
+
+                        <!-- Modal Cadastro -->
+                        <div class="modal fade modal-lg" id="modalFormUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar Usuário</h1>
+                                        <button id="btn-close-cadastro-usuario" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="alert d-none" id="alert-cadastrar-usuario" role="alert"></div>
+                                        <form id="form-usuario">
+                                            <div class="row input-wrapper">
+                                                <input type="hidden" name="id" id="id">
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="nome" class="form-label">Nome</label>
+                                                    <input type="text" class="form-control" id="nome-usuario" name="nome-usuario">
+                                                    <small id="text-nome-usuario"></small>
+                                                </div>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="cpf" class="form-label">CPF</label>
+                                                    <input type="text" class="form-control cpf-mask" id="cpf" name="cpf">
+                                                    <small id="text-cpf"></small>
+                                                </div>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="sexo" class="form-label">Sexo</label>
+                                                    <select class="form-select" id="sexo" name="sexo" aria-label="Default select example">
+                                                        <option value="0" selected disabled>Selecione</option>
+                                                        <option value="2">Feminino</option>
+                                                        <option value="1">Masculino</option>
+                                                    </select>
+                                                    <small id="text-sexo"></small>
+                                                </div>
+
+                                                <div class="col-md-4 col-xl-4 mb-3">
+                                                    <label for="data_nascimento" class="form-label">Data Nascimento</label>
+                                                    <input type="date" class="form-control" id="nascimento" name="nascimento">
+                                                    <small id="text-nascimento"></small>
+                                                </div>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="telefone" class="form-label">Telefone</label>
+                                                    <input type="tel" class="form-control telefone-mask" id="telefone" name="telefone">
+                                                    <small id="text-telefone"></small>
+                                                </div>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="email" name="email">
+                                                    <small id="text-email"></small>
+                                                </div>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="nivel-acesso" class="form-label">Nível de acesso</label>
+                                                    <select class="form-select" id="nivel-acesso" name="nivel-acesso" aria-label="Default select example">
+                                                        <option value="0" selected disabled>Selecione</option>
+                                                        <option value="2">Total</option>
+                                                        <option value="3">Parcial</option>
+                                                    </select>
+                                                    <small id="text-nivel-acesso"></small>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="mb-3 d-flex justify-content-end">
+
+                                                        <button id="submit-usuario" type="button" class="btn button-secondary-outline" name="cadastrar" onclick="cadastrarUsuario()">
+                                                            <i class="far fa-plus-square"></i> Cadastrar
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <a id="pdf-usuario" class="btn button-secondary-outline" target="blank">
+                            <i class="fa-solid fa-file-pdf"></i> PDF
+                        </a>
+
+                    </div>
+                </div>
+                <!--Card-->
+                
+                <div class="row">
+
+                    <form id="form-pesquisar-usuario" class="mb-4" action="" method="post">
+                        <div class="row input-wrapper">
+
+                            <div class="col-md-3">
+                                <label for="select-ordem-tipo">Ordenar por:</label>
+                                <select class="form-select input-select-style" aria-label="Default select example" id="select-ordem-tipo" name="select-ordem-tipo" onchange="buscar()">
+                                    <option value="1" selected>ID</option>
+                                    <option value="2">Nome</option>
+                                    <option value="3">Sexo</option>
+                                    <option value="4">Data de Nascimento</option>
+                                    <option value="5">Nível de acesso</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="select-ordem ">Ordem:</label>
+                                <select class="form-select input-select-style" aria-label="Default select example" id="select-ordem" name="select-ordem" onchange="buscar()">
+                                    <option value="1" selected>Crescente</option>
+                                    <option value="2">Decrescente</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nome">Nome:</label>
+                                    <input type="text" class="form-control input-style" id="nome-pesquisa" name="nome-pesquisa" placeholder="Nome a ser pesquisado..." onkeyup="buscar()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="nome">Itens por tabela:</label>
+                                    <input type="number" class="form-control input-style" id="qtdPagForm" name="qtdPagForm" value="10" step="5" min="5" max="50" onchange="buscar()">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </form>
+
+                    <div class="alert d-none" id="alert-body" role="alert"></div>
+
+                    <div id="filtro" class="table-responsive mt-2">
+                        <table id="table-usuario" class="table table-striped table-dark table-sm text-center">
+                            <thead class="list-table-head selecao-filtro">
+
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Sexo</th>
+                                    <th scope="col">Data Nascimento</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">CPF</th>
+                                    <th scope="col">Nível de Acesso</th>
+                                    <?php if($_SESSION['nivel_acesso'] <= 2){?>
+                                        <th scope="col">Ação</th>
+                                    <?php }?>
+
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="list-table-body">
+
+                            </tbody>
+                        </table>
+
+                        <nav aria-label="Page navigation example">
+                            <ul id="page" class="pagination justify-content-center">
+
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+         <!-- /#page-content-wrapper -->
+     </div>
+
+    <script src="/js/usuario.js"></script>

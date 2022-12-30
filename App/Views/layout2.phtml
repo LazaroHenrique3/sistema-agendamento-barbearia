@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/img/barba.png">
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" crossorigin="anonymous">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style2.css">
+    <link href='/css/core/main.min.css' rel='stylesheet' />
+    <link href='/css/daygrid/main.min.css' rel='stylesheet' />
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <!-- JQueryMask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" crossorigin="anonymous"></script>
+
+    <title>Barbearia do Zé</title>
+</head>
+
+<body id="body">
+
+    <!---->
+    <nav id="horizontal-nav" class="navbar navbar-expand-lg bg-light">
+        <div id="nav" class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="/img/barba.png" alt="">
+                <span id="logo-title">Barbearia do Zé</span>
+            </a>
+            <button id="btn-toggle" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active li-text" aria-current="page" href="/dashboard">
+                            <i class="fa-solid fa-gauge icon-light"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a id="cadastro" class="nav-link dropdown-toggle li-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-address-book icon-light"></i>
+                            Cadastro
+                        </a>
+                        <ul id="ul-cadastro" class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="/cliente/index"><span class="li-text">Cliente</span></a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/usuario/index"><span class="li-text">Usuário</span></a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/servico/index"><span class="li-text">Serviço</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li id="movimentacoes" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle li-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-briefcase icon-light"></i>
+                            Movimentações
+                        </a>
+                        <ul id="ul-movimentacoes" class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item li-text" href="/agendamento/index"><span class="li-text">Agendamento</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li id="usuario" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle li-text" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-circle-user icon-light"></i>
+                            <span class="li-text">Usuário</span>
+                        </a>
+
+                        <ul id="ul-usuario" class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarUsuarioLogado"><span class="li-text">Editar Perfil</span></a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/sair"><span class="li-text">Sair</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!---->
+
+    <div id="wrapper" class="toggled">
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container">
+
+                <div class="modal fade modal-lg" id="modalAlterarUsuarioLogado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Perfil Usuário</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert" id="alert" role="alert"></div>
+                                <form id="form-usuario-logado">
+                                    <div class="row input-wrapper">
+
+                                        <input type="hidden" name="id" id="id-usuario-logado" value="<?= $_SESSION['id'] ?>">
+
+                                        <div class="col-md-4 mb-3">
+                                            <label for="nome" class="form-label">Nome</label>
+                                            <input type="text" class="form-control" id="nome-usuario-alterar-logado" name="nome-usuario" value="<?= $_SESSION['nome'] ?>">
+                                            <small id="text-nome-usuario-alterar-logado"></small>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label for="cpf" class="form-label">CPF</label>
+                                            <input type="text" class="form-control cpf-mask" id="cpf-alterar-logado" name="cpf" value="<?= $_SESSION['cpf'] ?>">
+                                            <small id="text-cpf-alterar-logado"></small>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label for="sexo" class="form-label">Sexo</label>
+                                            <select class="form-select" id="sexo-alterar-logado" name="sexo" aria-label="Default select example">
+                                                <option value="2" <?= ($_SESSION['sexo'] == 2) ? 'selected' : '' ?>>Feminino</option>
+                                                <option value="1" <?= ($_SESSION['sexo'] == 1) ? 'selected' : '' ?>>Masculino</option>
+                                            </select>
+                                            <small id="text-sexo-alterar-logado"></small>
+                                        </div>
+
+                                        <div class="col-md-4 col-xl-4 mb-3">
+                                            <label for="data_nascimento" class="form-label">Data Nascimento</label>
+                                            <input type="date" class="form-control" id="nascimento-alterar-logado" name="nascimento" value="<?= $_SESSION['data_nascimento'] ?>">
+                                            <small id="text-nascimento-alterar-logado"></small>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label for="telefone" class="form-label">Telefone</label>
+                                            <input type="tel" class="form-control telefone-mask" id="telefone-alterar-logado" name="telefone" value="<?= $_SESSION['telefone'] ?>">
+                                            <small id="text-telefone-alterar-logado"></small>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email-alterar-logado" name="email" value="<?= $_SESSION['email'] ?>">
+                                            <small id="text-email-alterar-logado"></small>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="senha" class="form-label">Nova Senha</label>
+                                            <input type="password" class="form-control" id="senha-alterar-logado" name="senha">
+                                            <small id="text-senha-alterar-logado"></small>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="senha" class="form-label">Confirmar Senha</label>
+                                            <input type="password" class="form-control" id="senha-alterar-logado-confirmar" name="senha">
+                                            <small id="text-senha-alterar-logado-confirmar"></small>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn button-secondary-outline" name="cadastrar" onclick="alterarUsuarioLogado()">
+                                    <i class="far fa-plus-square"></i> Alterar
+                                </button>
+
+                                <button type="button" class="btn button-primary-outline mx-3" data-bs-dismiss="modal">
+                                    <i class="fa-solid fa-arrow-left"></i> Cancelar
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="alert" id="alert-body" role="alert"></div>-->
+                <?= $this->content() ?>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+                <script src="/js/usuarioLogado.js"></script>
+</body>
+
+</html>

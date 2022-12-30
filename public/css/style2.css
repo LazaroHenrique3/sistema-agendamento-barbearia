@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+
+body {
+    font-family: 'Noto-Sans', sans-serif !important;
+    background: #2f2841;
+}
+
+.title-h2{
+    color: #00ff88;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+#logo-title {
+    color: #00ff88;
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.li-text {
+    font-weight: 700 !important;
+    font-size: 18px !important;
+}
+
+#horizontal-nav {
+    background: #201b2c !important;
+    box-shadow: 0px 10px 40px #00000056 !important;
+}
+
+#horizontal-nav ul {
+    background: #201b2c !important;
+}
+
+#btn-toggle {
+    background: #00ff88 !important;
+}
+
+
+
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+#horizontal-nav li a {
+    color: #999999 !important;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #201b2c;
+    background: #f0ffffde;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav>.sidebar-brand {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav>.sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav>.sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+.icon-light {
+    color: #00ff88;
+}
+
+/*Botões padrões do Sistema*/
+.button-primary-outline {
+    background-color: #00ff88;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.button-primary-outline:hover {
+    background-color: transparent;
+    color: #00ff88;
+    border: solid 1px #00ff88;
+}
+
+.button-secondary-outline {
+    border: solid 1px #00ff88 !important;
+    color: #00ff88 !important;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+}
+
+.button-secondary-outline:hover {
+    background-color: #00ff88 !important;
+    color: #2f2841 !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*Card Index cadastros*/
+.card-title {
+    border: solid 2px #00ff88;
+    background: #3f3852;
+    color: #00ff88;
+    box-shadow: 0px 10px 40px -12px #00ff8052;
+}
+
+.card-title-text {
+    text-shadow: 0.1em 0.1em 0.2em #00ff8052;
+}
+
+/*Inputs*/
+.input-wrapper input {
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    background: #514869;
+    color: #f0ffffde;
+    font-size: 12pt;
+    box-shadow: 0px 10px 40px #00000056;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input-wrapper textarea {
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    background: #514869;
+    color: #f0ffffde;
+    font-size: 12pt;
+    box-shadow: 0px 10px 40px #00000056;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input-wrapper select {
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    background: #514869;
+    color: #f0ffffde;
+    font-size: 12pt;
+    box-shadow: 0px 10px 40px #00000056;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.select-search {
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 15px !important;
+    background: #514869 !important;
+    color: #f0ffffde !important;
+    font-size: 12pt !important;
+    box-shadow: 0px 10px 40px #00000056 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+}
+
+label {
+    color: #f0ffffde;
+}
+
+.input-wrapper input::placeholder {
+    color: #f0ffff94;
+}
+
+.form-control {
+    background: #514869 !important;
+    color: #f0ffffde !important;
+}
+
+.checkbox {
+    margin: 0 12px 0 -25px !important;
+    vertical-align: middle !important;
+    position: relative !important;
+    top: -1px;
+}
+
+/*Tabela de listagem*/
+table {
+    box-shadow: 0px 10px 40px #00000056;
+}
+
+.list-table-head {
+    color: #00ff88;
+    border: none;
+    font-weight: 600;
+    font-size: 20px;
+    background: #201b2c;
+}
+
+.list-table-body {
+    color: #ffffff;
+    border: none;
+    background: #3f3852;
+    font-size: 18px;
+}
+
+/*Modal de cadastro*/
+.btn-close-modal {
+    background-color: #00ff88 !important;
+}
+
+.modal-title {
+    color: #00ff88;
+    font-size: 35px !important;
+    font-weight: 600;
+}
+
+.modal-body {
+    background: #2f2841;
+}
+
+.modal-header {
+    background: #2f2841;
+    border-bottom: solid 1px #00ff88;
+}
+
+.modal-footer {
+    background: #2f2841 !important;
+    border-top: none !important;
+}
+
+.card{
+    border: solid 1px #00ff88;
+    border-radius: 10px !important;
+}
+
+.card-body{
+    background: #2f2841;
+    border-radius: 10px !important;
+    box-shadow: 0px 10px 40px #00000056;
+}
+
+.card-text-destaque{
+    color: #00ff88;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.card-info-cliente{
+    font-size: 20px !important; 
+    font-weight: 400 !important;
+}
+
+/*Paginação*/
+.bg-page-link {
+    background: #201b2c !important;
+    border: #201b2c !important;
+    color: #00ff88 !important;
+    font-size: 20px;
+    font-weight: 600;
+    box-shadow: 0px 10px 40px #00000056;
+}
+
+.bg-page-link-active {
+    background: #00ff88 !important;
+    border: #201b2c;
+    color: #201b2c !important;
+    font-size: 20px;
+    font-weight: 600;
+    box-shadow: 0px 10px 40px #00000056;
+}
+
+.bg-page-link:hover {
+    background: #00ff88;
+    color: #201b2c;
+}
+
+/*Celendario de cadastro*/
+.calendar-color {
+    color: #00ff88;
+}
+
+.fc-today {
+    background: #00ff88 !important;
+    color: #2b134b !important;
+}
+
+#calendar {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.visEvent {
+    display: block;
+}
+
+.formEditar {
+    display: none;
+}

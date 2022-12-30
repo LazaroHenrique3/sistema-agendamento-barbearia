@@ -1,0 +1,139 @@
+                <!--Card-->
+                <div class="card mb-3 card-title">
+                    <div class="card-body">
+                        <h1 class="display-3 text-center mb-2 card-title-text">Serviço</h1>
+
+                        <h5 class="card-text"> <span id="qtd"><?= $this->view->totalServicos['total'] ?></span> Serviço(s) encontrado(s).</h5>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn button-primary-outline" data-bs-toggle="modal" data-bs-target="#modalFormServico">
+                            <i class="far fa-address-book"></i> Cadastrar
+                        </button>
+
+                        <!-- Modal Cadastro -->
+                        <div class="modal fade modal-lg" id="modalFormServico" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar Serviço</h1>
+                                        <button id="btn-close-cadastro-servico" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="alert" id="alert" role="alert"></div>
+                                        <form id="form-servico">
+                                            <div class="row input-wrapper">
+                                                <input type="hidden" name="id" id="id">
+
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="descricao" class="form-label">Descrição</label>
+                                                    <input type="text" class="form-control" id="descricao" name="descricao">
+                                                    <small id="text-descricao"></small>
+                                                </div>
+
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="valor" class="form-label">Valor(R$)</label>
+                                                    <input type="number" class="form-control" id="valor" name="valor">
+                                                    <small id="text-valor"></small>
+                                                </div>
+                                            
+                                                <div class="row">
+                                                    <div class="mb-3 d-flex justify-content-end">
+
+                                                        <button id="submit-servico" type="button" class="btn button-secondary-outline" name="cadastrar" onclick="cadastrarServico()">
+                                                            <i class="far fa-plus-square"></i> Cadastrar
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <a id="pdf-servico" class="btn button-secondary-outline" target="blank">
+                            <i class="fa-solid fa-file-pdf"></i> PDF
+                        </a>
+
+                    </div>
+                </div>
+                <!--Card-->
+
+                <div class="row">
+
+                    <form id="form-pesquisar-servico" class="mb-4">
+                        <div class="row input-wrapper">
+
+                            <div class="col-md-3">
+                                <label for="select-ordem-tipo">Ordenar por:</label>
+                                <select class="form-select input-select-style" aria-label="Default select example" id="select-ordem-tipo" name="select-ordem-tipo" onchange="buscar()">
+                                    <option value="1" selected>ID</option>
+                                    <option value="2">Descrição</option>
+                                    <option value="3">Valor</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="select-ordem ">Ordem:</label>
+                                <select class="form-select input-select-style" aria-label="Default select example" id="select-ordem" name="select-ordem" onchange="buscar()">
+                                    <option value="1" selected>Crescente</option>
+                                    <option value="2">Decrescente</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nome">Descrição:</label>
+                                    <input type="text" class="form-control input-style" id="nome-pesquisa" name="nome-pesquisa" placeholder="Serviço a ser pesquisado..." onkeyup="buscar()">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="nome">Itens por tabela:</label>
+                                    <input type="number" class="form-control input-style" id="qtdPagForm" name="qtdPagForm" value="10" step="5" min="5" max="50" onchange="buscar()">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </form>
+
+                    <div class="alert d-none" id="alert-body" role="alert"></div>
+
+                    <div id="filtro" class="table-responsive mt-2">
+                        <table id="table-servico" class="table table-striped table-dark table-sm text-center">
+                            <thead class="list-table-head selecao-filtro">
+
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Descrição</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="list-table-body">
+
+                            </tbody>
+                        </table>
+
+                        <nav aria-label="Page navigation example">
+                            <ul id="page" class="pagination justify-content-center">
+
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+
+    <script src="/js/servico.js"></script>

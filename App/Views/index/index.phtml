@@ -1,0 +1,75 @@
+<div class="main-login">
+    <div class="left-login">
+        <img src="/img/barber-animate.svg" class="left-login-image" alt="barbeiro-animacao">
+    </div>
+    <div class="right-login">
+        <div class="card-login">
+            <h1>LOGIN</h1>
+
+            <?php if (isset($_GET['msg'])) { ?>
+                <div class="alert alert-<?= $_GET['status'] ?> alert-dismissible fade show mt-3" role="alert" style="width: 100%;">
+                    <?= $_GET['msg'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php } ?>
+
+            <div class="alert" id="alert-login" role="alert"></div>
+
+            <form action="/autenticar" method="post" onsubmit="return validaLogin()">
+                <div class="textfield">
+                    <label for="email-login">Email</label>
+                    <input type="email" name="email-login" id="email-login" placeholder="Email do usuario">
+                    <small id="text-email-login"></small>
+                </div>
+
+                <div class="textfield">
+                    <label for="senha">Senha</label>
+                    <input type="password" name="senha" id="senha" placeholder="Senha">
+                    <small id="text-senha"></small>
+                </div>
+
+                <small>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#modal-recuperar-senha" style="color: #00ff88; text-decoration: none;">Esqueci minha senha</a>
+                </small>
+
+                <button id="login" type="submit" class="btn-login">Login</button>
+            </form>
+            
+            <!--Modal recuperar Senha-->
+            <div class="modal fade" id="modal-recuperar-senha" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Recuperar Senha</h5>
+                            <button id="" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert" id="alert" role="alert"></div>
+                            <form id="form-usuario-logado">
+                                <div class="row input-wrapper">
+
+                                    <div class="col-md-12 mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email-recuperar-senha" name="email-recuperar-senha" placeholder="Email utilizado no login">
+                                        <small id="text-email-recuperar-senha"></small>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" id="btn-recuperar-senha" class="btn button-secondary-outline" name="cadastrar" onclick="recuperarSenha()">
+                                <i class="fa-solid fa-square-check"></i> Enviar
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/script.js"></script>

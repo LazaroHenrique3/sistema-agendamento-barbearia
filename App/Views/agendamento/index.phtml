@@ -1,0 +1,546 @@
+                <!--Card-->
+                <div class="card mb-3 card-title">
+                    <div class="card-body">
+                        <h1 class="display-3 text-center mb-2 card-title-text">Agendamento</h1>
+
+                        <h5 class="card-text"> <span id="qtd"><?= $this->view->totalAgendamentos['total'] ?></span> Agendamento(s) aberto(s) encontrado(s).</h5>
+
+                        <button type="button" class="btn button-primary-outline" name="ver-todos" data-bs-toggle="modal" data-bs-target="#ver-agendamentos" onclick="buscar()">
+                            <i class="fa-solid fa-eye"></i> Todos
+                        </button>
+
+                        <!--Modal ver agendamentos-->
+                        <div class="modal fade modal-xl" id="ver-agendamentos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Agendamentos</h1>
+                                        <button id="btn-close-pesquisar-agendamento" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <form id="form-pesquisar-agendamentos" action="" method="post">
+                                            <div class="row input-wrapper">
+
+                                                <div class="col-md-3">
+                                                    <label for="select-ordem-tipo">Ordenar por:</label>
+                                                    <select class="form-select input-select-style" aria-label="Default select example" id="select-ordem-tipo" name="select-ordem-tipo" onchange="buscar()">
+                                                        <option value="1" selected>Status</option>
+                                                        <option value="2">Cliente</option>
+                                                        <option value="3">Serviço</option>
+                                                        <option value="4">Valor</option>
+                                                        <option value="5">Data Início</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="select-ordem ">Ordem:</label>
+                                                    <select class="form-select input-select-style" aria-label="Default select example" id="select-ordem" name="select-ordem" onchange="buscar()">
+                                                        <option value="1" selected>Crescente</option>
+                                                        <option value="2">Decrescente</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="nome">Nome Cliente:</label>
+                                                        <input type="text" class="form-control input-style" id="nome-pesquisa" name="nome-pesquisa" placeholder="Nome a ser pesquisado..." onkeyup="buscar()">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="nome">Itens:</label>
+                                                        <input type="number" class="form-control input-style" id="qtdPagForm" name="qtdPagForm" value="10" step="5" min="5" max="50" onchange="buscar()">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 mt-4">
+                                                    <div class="form-group">
+                                                        <a id="pdf-agendamento" class="btn button-secondary-outline" target="blank">
+                                                            <i class="fa-solid fa-file-pdf"></i> PDF
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+
+                                        <div class="alert" id="alert-agendamento-tabela" role="alert"></div>
+
+                                        <div id="filtro" class="table-responsive mt-2">
+                                            <table id="table-cliente" class="table table-striped table-dark table-sm text-center">
+                                                <thead class="list-table-head selecao-filtro">
+
+                                                    <tr>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Cliente</th>
+                                                        <th scope="col">Serviço</th>
+                                                        <th scope="col">Valor</th>
+                                                        <th scope="col">Início</th>
+                                                        <th scope="col">Término</th>
+                                                        <th scope="col">Ação</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="table-body" class="list-table-body">
+
+                                                </tbody>
+                                            </table>
+
+                                            <nav aria-label="Page navigation example">
+                                                <ul id="page" class="pagination justify-content-center">
+
+                                                </ul>
+                                            </nav>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Modal Escolher Cliente/Servico-->
+
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <!--Onde será exibido as mensagens-->
+                    <div class="alert" id="alert-agendamento" role="alert"></div>
+
+                    <div class="calendar-color" id='calendar'></div>
+
+                    <!-- Modal Visualizar-->
+                    <div class="modal fade calendar-color" id="visualizar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+                        <div id="detalhes-agendamento" class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detalhes do Agendamento</h1>
+                                    <button id="btn-close-detalhes-agendamento" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="visEvent">
+                                        <dl class="row">
+                                            <dt class="col-sm-4">ID do Agendamento</dt>
+                                            <dd class="col-sm-8" id="id"></dd>
+
+                                            <dt class="col-sm-4">Cliente</dt>
+                                            <dd class="col-sm-8" id="cliente"></dd>
+
+                                            <dt class="col-sm-4">Serviço</dt>
+                                            <dd class="col-sm-8" id="servico"></dd>
+
+                                            <dt class="col-sm-4">Valor</dt>
+                                            <dd class="col-sm-8" id="valor"></dd>
+
+                                            <dt class="col-sm-4">Início</dt>
+                                            <dd class="col-sm-8" id="start"></dd>
+
+                                            <dt class="col-sm-4">Fim</dt>
+                                            <dd class="col-sm-8" id="end"></dd>
+
+                                            <dt class="col-sm-4">Observação</dt>
+                                            <dd class="col-sm-8" id="observacao"></dd>
+                                        </dl>
+
+                                        <button type="button" class="btn button-secondary-outline btn-canc-vis">
+                                            <i class="far fa-plus-square"></i> Alterar
+                                        </button>
+
+                                        <button id="excluir-agendamento" type="button" class="btn button-primary-outline" onclick="excluirAgendamento()">
+                                            <i class="fa-solid fa-trash-can"></i> Excluir
+                                        </button>
+                                    </div>
+
+                                    <div id="div-editar" class="formEditar">
+
+                                        <!--Form de Edição-->
+                                        <form id="form-agendamento-alterar">
+                                            <div class="row input-wrapper">
+
+                                                <input type="hidden" id="id-agendamento-alterar" name="id-agendamento-alterar">
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="cliente-agendamento-alterar" class="form-label">Cliente</label>
+                                                    <input type="text" class="form-control" id="cliente-agendamento-alterar" name="cliente-agendamento">
+                                                    <input type="hidden" id="id-agendamento-cliente-alterar" name="id-agendamento-cliente">
+                                                    <input type="hidden" id="email-agendamento-cliente-alterar" name="email-agendamento-cliente">
+                                                    <small id="text-cliente-agendamento-alterar"></small>
+                                                </div>
+
+                                                <!--Modal Escolher Cliente/Servico-->
+                                                <div class="modal fade modal-sm" id="pesquisar-cliente-alterar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Clientes</h1>
+                                                                <button id="btn-close-pesquisar-cliente-alterar" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <form id="form-pesquisar-cliente-alterar">
+                                                                    <div class="row input-wrapper">
+
+                                                                        <div class="col-md-12 mb-3">
+                                                                            <label for="cliente-agendamento-pesquisar-alterar" class="form-label">Cliente</label>
+                                                                            <input type="text" class="form-control" id="cliente-agendamento-pesquisar-alterar" name="cliente-agendamento-pesquisar">
+                                                                            <small id="text-cliente-agendamento-pesquisar-alterar"></small>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </form>
+
+                                                                <!--Tabela de Serviços-->
+                                                                <div id="filtro" class="table-responsive mt-2">
+                                                                    <table id="table-cliente-pesquisar-alterar" class="table table-striped table-dark table-sm text-center">
+                                                                        <thead class="list-table-head selecao-filtro" style="display: block;">
+
+                                                                            <tr>
+                                                                                <th scope="col" style="padding: 5px; width:20%;">Cliente</th>
+                                                                                <th scope="col" style="padding: 5px; width:20%;">Selecionar</th>
+                                                                            </tr>
+
+                                                                        </thead>
+
+                                                                        <tbody id="table-cliente-pesquisar-body-alterar" class="list-table-body" style="display: block; height: 100px; overflow-y: scroll;">
+
+                                                                        </tbody>
+
+                                                                    </table>
+                                                                </div>
+                                                                <!--Tabela de Serviços-->
+
+                                                            </div>
+                                                            <div class="modal-footer">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--Modal Escolher Cliente/Servico-->
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="servico-agendamento-alterar" class="form-label">Serviço</label>
+                                                    <input type="text" class="form-control servico-agendamento" id="servico-agendamento-alterar" name="servico-agendamento">
+                                                    <input type="hidden" id="id-agendamento-servico-alterar" name="id-agendamento-servico">
+                                                    <small id="text-servico-agendamento-alterar"></small>
+                                                </div>
+
+                                                <!--Modal Escolher Cliente/Servico-->
+                                                <div class="modal fade modal-sm" id="pesquisar-servico-alterar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Serviços</h1>
+                                                                <button id="btn-close-pesquisar-servico-alterar" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <form id="form-pesquisar-servico-alterar">
+                                                                    <div class="row input-wrapper">
+
+                                                                        <div class="col-md-12 mb-3">
+                                                                            <label for="servico-agendamento-pesquisar-alterar" class="form-label">Serviço</label>
+                                                                            <input type="text" class="form-control" id="servico-agendamento-pesquisar-alterar" name="servico-agendamento-pesquisar">
+                                                                        </div>
+
+                                                                    </div>
+                                                                </form>
+
+                                                                <!--Tabela de Serviços-->
+                                                                <div id="filtro" class="table-responsive mt-2">
+                                                                    <table id="table-servico-pesquisar-alterar" class="table table-striped table-dark table-sm text-center">
+                                                                        <thead class="list-table-head selecao-filtro" style="display: block;">
+
+                                                                            <tr>
+                                                                                <th scope="col" style="padding: 5px; width:20%;">Serviço</th>
+                                                                                <th scope="col" style="padding: 5px; width:20%;">Selecionar</th>
+                                                                            </tr>
+
+                                                                        </thead>
+                                                                        <tbody id="table-servico-pesquisar-body-alterar" class="list-table-body" style="display: block; height: 100px; overflow-y: scroll;">
+
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                </div>
+                                                                <!--Tabela de Serviços-->
+
+                                                            </div>
+                                                            <div class="modal-footer">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--Modal Escolher Cliente/Servico-->
+
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="valor" class="form-label">Valor</label>
+                                                    <input type="number" class="form-control" id="valor-agendamento-alterar" name="valor-agendamento" readonly="readonly">
+                                                    <small id="text-valor-agendamento-alterar"></small>
+                                                </div>
+
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="data-data-inicio" class="form-label">Período Início</label>
+                                                    <input type="datetime-local" class="form-control" id="start-alterar" name="data-inicio">
+                                                    <small id="text-start-alterar"></small>
+                                                </div>
+
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="data-fim" class="form-label">Período Fim</label>
+                                                    <input type="datetime-local" class="form-control" id="end-alterar" name="data-fim">
+                                                    <small id="text-end-alterar"></small>
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="observacao" class="form-label">Observação</label>
+                                                    <textarea class="form-control" id="observacao-agendamento-alterar" name="observacao-agendamento" rows="3"></textarea>
+                                                    <small id="text-observacao-agendamento-alterar"></small>
+                                                </div>
+
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="form-check ">
+                                                        <label class="form-check-label" for="defaultCheck1"> Notificar cliente via E-mail </label>
+                                                        <input class="form-check-input checkbox" type="checkbox" id="check-enviar-email-alterar" name="check-enviar-email">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                        <!--Form de Edição-->
+
+                                        <button id="cancelar-agendamento-alterar" type="button" class="btn button-secondary-outline btn-canc-edit">
+                                            <i class="far fa-plus-square"></i> Cancelar
+                                        </button>
+
+                                        <button id="submit-agendamento-alterar" type="button" class="btn button-primary-outline" onclick="return alterarAgendamento()">
+                                            <i class="far fa-plus-square"></i> Alterar
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--modal Visualizar-->
+
+                    <!-- Modal Cadastrar-->
+                    <div class="modal fade modal-lg" id="modal-cadastrar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cadastrar Agendamento</h1>
+                                    <button id="btn-close-cadastro-agendamento" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert" id="alert" role="alert"></div>
+                                    <form id="form-agendamento">
+                                        <div class="row input-wrapper">
+
+                                            <div class="col-md-4 mb-3">
+                                                <label for="cliente-agendamento" class="form-label">Cliente</label>
+                                                <input type="text" class="form-control" id="cliente-agendamento" name="cliente-agendamento">
+                                                <input type="hidden" id="id-agendamento-cliente" name="id-agendamento-cliente">
+                                                <input type="hidden" id="email-agendamento-cliente" name="email-agendamento-cliente">
+                                                <small id="text-cliente-agendamento"></small>
+                                            </div>
+
+                                            <!--Modal Escolher Cliente/Servico-->
+                                            <div class="modal fade modal-sm" id="pesquisar-cliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Clientes</h1>
+                                                            <button id="btn-close-pesquisar-cliente" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <form id="form-pesquisar-cliente">
+                                                                <div class="row input-wrapper">
+
+                                                                    <div class="col-md-12 mb-3">
+                                                                        <label for="cliente-agendamento-pesquisar" class="form-label">Cliente</label>
+                                                                        <input type="text" class="form-control" id="cliente-agendamento-pesquisar" name="cliente-agendamento-pesquisar">
+                                                                        <small id="text-cliente-agendamento-pesquisar"></small>
+                                                                    </div>
+
+                                                                </div>
+                                                            </form>
+
+                                                            <!--Tabela de Serviços-->
+                                                            <div id="filtro" class="table-responsive mt-2">
+                                                                <table id="table-cliente-pesquisar" class="table table-striped table-dark table-sm text-center">
+                                                                    <thead class="list-table-head selecao-filtro" style="display: block;">
+
+                                                                        <tr>
+                                                                            <th scope="col" style="padding: 5px; width:20%;">Cliente</th>
+                                                                            <th scope="col" style="padding: 5px; width:20%;">Selecionar</th>
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody id="table-cliente-pesquisar-body" class="list-table-body" style="display: block; height: 100px; overflow-y: scroll;">
+
+                                                                    </tbody>
+
+                                                                </table>
+                                                            </div>
+                                                            <!--Tabela de Serviços-->
+
+                                                        </div>
+                                                        <div class="modal-footer">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Modal Escolher Cliente/Servico-->
+
+                                            <div class="col-md-4 mb-3">
+                                                <label for="servico-agendamento" class="form-label">Serviço</label>
+                                                <input type="text" class="form-control servico-agendamento" id="servico-agendamento" name="servico-agendamento">
+                                                <input type="hidden" id="id-agendamento-servico" name="id-agendamento-servico">
+                                                <small id="text-servico-agendamento"></small>
+                                            </div>
+
+                                            <!--Modal Escolher Cliente/Servico-->
+                                            <div class="modal fade modal-sm" id="pesquisar-servico" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Serviços</h1>
+                                                            <button id="btn-close-pesquisar-servico" type="button" class="btn-close btn-close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <form id="form-pesquisar-servico">
+                                                                <div class="row input-wrapper">
+
+                                                                    <div class="col-md-12 mb-3">
+                                                                        <label for="servico-agendamento-pesquisar" class="form-label">Serviço</label>
+                                                                        <input type="text" class="form-control" id="servico-agendamento-pesquisar" name="servico-agendamento-pesquisar">
+                                                                        <small id="text-servico-agendamento-pesquisar"></small>
+                                                                    </div>
+
+                                                                </div>
+                                                            </form>
+
+                                                            <!--Tabela de Serviços-->
+                                                            <div id="filtro" class="table-responsive mt-2">
+                                                                <table id="table-servico-pesquisar" class="table table-striped table-dark table-sm text-center">
+                                                                    <thead class="list-table-head selecao-filtro" style="display: block;">
+
+                                                                        <tr>
+                                                                            <th scope="col" style="padding: 5px; width:20%;">Serviço</th>
+                                                                            <th scope="col" style="padding: 5px; width:20%;">Selecionar</th>
+                                                                        </tr>
+
+                                                                    </thead>
+                                                                    <tbody id="table-servico-pesquisar-body" class="list-table-body" style="display: block; height: 100px; overflow-y: scroll;">
+
+                                                                    </tbody>
+                                                                </table>
+
+                                                                <!--Paginação-->
+                                                                <nav aria-label="Page navigation example">
+                                                                    <ul id="page" class="pagination justify-content-center">
+
+                                                                    </ul>
+                                                                </nav>
+
+                                                            </div>
+                                                            <!--Tabela de Serviços-->
+
+                                                        </div>
+                                                        <div class="modal-footer">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Modal Escolher Cliente/Servico-->
+
+                                            <div class="col-md-4 mb-3">
+                                                <label for="valor" class="form-label">Valor</label>
+                                                <input type="number" class="form-control" id="valor-agendamento" name="valor-agendamento" readonly="readonly">
+                                                <small id="text-valor-agendamento"></small>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label for="data-data-inicio" class="form-label">Período Início</label>
+                                                <input type="datetime-local" class="form-control" id="start" name="data-inicio">
+                                                <small id="text-start"></small>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label for="data-fim" class="form-label">Período Fim</label>
+                                                <input type="datetime-local" class="form-control" id="end" name="data-fim">
+                                                <small id="text-end"></small>
+                                            </div>
+
+                                            <div class="col-md-12 mb-3">
+                                                <label for="observacao" class="form-label">Observação</label>
+                                                <textarea class="form-control" id="observacao-agendamento" name="observacao-agendamento" rows="3"></textarea>
+                                                <small id="text-observacao-agendamento"></small>
+                                            </div>
+
+                                            <div class="col-md-12 mb-3">
+                                                <div class="form-check ">
+                                                    <label class="form-check-label" for="defaultCheck1"> Notificar cliente via E-mail </label>
+                                                    <input class="form-check-input checkbox" type="checkbox" id="check-enviar-email" name="check-enviar-email">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="mb-3 d-flex justify-content-end">
+
+                                                    <button id="submit-agendamento" type="button" class="btn button-secondary-outline" onclick="return cadastrarAgendamento()">
+                                                        <i class="far fa-plus-square"></i> Cadastrar
+                                                    </button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                </form>
+
+                </div>
+                </div>
+                </div>
+                </div>
+                <!--modal Cadastrar-->
+
+                </div>
+
+                </div>
+                </div>
+                <!-- /#page-content-wrapper -->
+                </div>
+
+                <script src='/js/core/main.min.js'></script>
+                <script src='/js/interaction/main.min.js'></script>
+                <script src='/js/daygrid/main.min.js'></script>
+                <script src='/js/core/locales/pt-br.js'></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+                <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                <script src="/js/agendamento.js"></script>
