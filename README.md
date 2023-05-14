@@ -3,7 +3,7 @@
 Projeto PHP feito utilizando o miniframework MVC construído no curso da Udemy, este é o projeto de um sistema de agendamento para uma barbearia fictícia
 que permite o cadastro de serviços, usuários, clientes e por fim os agendamentos. Além de permitir a geração de relatórios PDF e notificações via E-mail.
 O principal objetivo deste projeto era praticar todos os conhecimentos adquiridos até então: PDO, uso de bibliotecas PHP externas como o DomPDF e PHP Mailer.
-Além de conhecimentos um pouco mais avançados de Javascript e Jquery como o FullCalendar.
+Além de conhecimentos um pouco mais avançados de Javascript e Jquery como o FullCalendar. 
 
 ## 🖼 Screenshots do projeto
 
